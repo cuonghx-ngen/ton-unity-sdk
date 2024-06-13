@@ -1,41 +1,19 @@
 /* @refresh reload */
-import { TonConnectUI } from 'src/ton-connect-ui';
-import { THEME } from 'src/models';
-import { SendTransactionRequest, TonConnect } from '@tonconnect/sdk';
+import { TonUnitySdkManager } from "src/index";
+import { SendTransactionRequest, TonConnect } from "@tonconnect/sdk";
 
 async function dev(): Promise<void> {
-    const connector = new TonConnect({
-        manifestUrl: 'https://demo-dapp.walletbot.net/demo-dapp/tonconnect-manifest.json'
-    });
-    const tonConnectUI = new TonConnectUI({
-        connector,
-        buttonRootId: 'button-root',
-        actionsConfiguration: {
-            modals: ['error'],
-            notifications: ['before'],
-            twaReturnUrl: 'https://google.com'
-        },
-        uiPreferences: {
-            theme: THEME.DARK,
-            borderRadius: 'm'
-        },
-        language: 'ru',
-        restoreConnection: true,
-        /*walletsListConfiguration: {
-            includeWallets: [
-                {
-                    name: 'Wallet',
-                    bridgeUrl: `https://bridge.tonapi.io/bridge`,
-                    universalLink: 'https://t.me/wallet',
-                    aboutUrl: '',
-                    imageUrl: 'https://tonkeeper.com/assets/tonconnect-icon.png',
-                    platforms: ['ios']
-                }
-            ]
-        }*/
-    });
+  const connector = new TonConnect({
+    manifestUrl:
+      "https://demo-dapp.walletbot.net/demo-dapp/tonconnect-manifest.json",
+  });
+  const tonUnitySdkManager = new TonUnitySdkManager({
+    tonConnectUiCreateOptions: {
+      connector,
+    },
+  });
 
-    /*tonConnectUI.setConnectRequestParameters({ state: 'loading' });
+  /*tonConnectUI.setConnectRequestParameters({ state: 'loading' });
 
     setInterval(() => {
         tonConnectUI.setConnectRequestParameters({
@@ -44,17 +22,19 @@ async function dev(): Promise<void> {
         });
     }, 3000);*/
 
-    tonConnectUI.onStatusChange(wallet => {
-        document.getElementById('content')!.textContent = wallet ? JSON.stringify(wallet) : wallet;
-    });
+  // tonConnectUI.onStatusChange((wallet) => {
+  //   document.getElementById("content")!.textContent = wallet
+  //     ? JSON.stringify(wallet)
+  //     : wallet;
+  // });
 
-    /*    tonConnectUI.uiOptions = {
+  /*    tonConnectUI.uiOptions = {
         actionsConfiguration: {
             returnStrategy: 'https://google.com'
         }
     };*/
 
-    /*setTimeout(() => {
+  /*setTimeout(() => {
         tc.uiOptions = {
             uiPreferences: {
                 borderRadius: 'none'
@@ -70,34 +50,39 @@ async function dev(): Promise<void> {
         };
     }, 3000);*/
 
-    // else show modal and ask user to select a wallet
+  // else show modal and ask user to select a wallet
 
-    /* setTimeout(() => {
+  /* setTimeout(() => {
         widgetController.openActionsModal('confirm-transaction');
     }, 500);
     setTimeout(() => {
         widgetController.openActionsModal('transaction-sent');
     }, 1000); */
 
-    document.getElementById('send-tx')!.onclick = () => {
-        const defaultTx: SendTransactionRequest = {
-            validUntil: Math.round(Date.now() / 1000) + 1000,
-            messages: [
-                {
-                    address: '0:4d5c0210b35daddaa219fac459dba0fdefb1fae4e97a0d0797739fe050d694ca',
-                    amount: '1000000'
-                }
-            ]
-        };
-
-        tonConnectUI.sendTransaction(defaultTx, {
-            modals: 'all',
-            notifications: 'all'
-        });
+  document.getElementById("send-tx")!.onclick = () => {
+    const defaultTx: SendTransactionRequest = {
+      validUntil: Math.round(Date.now() / 1000) + 1000,
+      messages: [
+        {
+          address:
+            "0:4d5c0210b35daddaa219fac459dba0fdefb1fae4e97a0d0797739fe050d694ca",
+          amount: "1000000",
+        },
+      ],
     };
 
-    //  tc.connectWallet();
-    /*
+    // tonConnectUI.sendTransaction(defaultTx, {
+    //   modals: "all",
+    //   notifications: "all",
+    // });
+  };
+
+  document.getElementById("connect")!.onclick = () => {
+    tonUnitySdkManager.callFunction("connectWallet");
+  };
+
+  //  tc.connectWallet();
+  /*
     setTimeout(() => {
         tc.uiOptions = {
             language: 'ru',
@@ -114,7 +99,7 @@ async function dev(): Promise<void> {
     setTimeout(() => {
         widgetController.openActionsModal('transaction-canceled');
     }, 1500);*/
-    /*try {
+  /*try {
         await tc.connectWallet();
 
         const defaultTx = {

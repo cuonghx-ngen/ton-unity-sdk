@@ -1,2 +1,2 @@
-export * from './library';
-export * from '@tonconnect/sdk';
+export * from "@tonconnect/ui";
+export * from "./ton-unity-sdk";
