@@ -34,7 +34,7 @@ export default defineConfig({
       formats: ["umd"],
       entry: path.resolve("src/index.ts"),
       name: "TON_UNITY_SDK",
-      fileName: () => "tonconnect-ui.min.js",
+      fileName: () => "ton-unity-sdk.min.js",
     },
   },
 });
