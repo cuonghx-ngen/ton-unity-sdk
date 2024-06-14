@@ -2,6 +2,7 @@ import * as path from "path";
 import { defineConfig } from "vite";
 import solidPlugin from "vite-plugin-solid";
 import devtools from "solid-devtools/vite";
+import { polyfillNode } from "esbuild-plugin-polyfill-node";
 // @ts-ignore
 import * as packageJson from "./package.json";
 
@@ -23,13 +24,23 @@ export default defineConfig({
     port: 3000,
   },
   optimizeDeps: {
+    esbuildOptions: {
+      target: "esnext",
+      plugins: [
+        polyfillNode({
+          globals: {
+            buffer: true,
+          },
+        }),
+      ],
+    },
     exclude: ["csstype"],
   },
   define: {
     TON_UNITY_SDK_VERSION: JSON.stringify(version),
   },
   build: {
-    target: "es6",
+    target: "esnext",
     outDir: "lib",
     emptyOutDir: true,
     minify: false,
@@ -50,13 +61,20 @@ export default defineConfig({
       },
     },
     rollupOptions: {
-      external: ["classnames", "deepmerge", "@tonconnect/ui", "ua-parser-js"],
+      external: [
+        "classnames",
+        "deepmerge",
+        "@tonconnect/ui",
+        "ua-parser-js",
+        "@ton/core",
+      ],
       output: {
         globals: {
           "@tonconnect/ui": "TonConnectUI",
           deepmerge: "deepmerge",
           classnames: "classNames",
           "ua-parser-js": "UAParser",
+          "@ton/core": "TonCore",
         },
       },
     },

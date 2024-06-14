@@ -1,6 +1,6 @@
 {
   "name": "ton-unity-sdk",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "scripts": {
     "start": "vite --host",
     "dev": "vite",
@@ -47,6 +47,7 @@
     }
   },
   "dependencies": {
+    "@ton/core": "^0.56.3",
     "@tonconnect/ui": "^2.0.5",
     "classnames": "^2.3.2",
     "deepmerge": "^4.2.2",
@@ -56,10 +57,10 @@
     "@floating-ui/dom": "^1.0.12",
     "@rollup/plugin-replace": "5.0.5",
     "@solid-primitives/i18n": "^1.1.2",
-    "@ton/ton": "^13.11.2",
     "@types/node": "^18.11.17",
     "@types/ua-parser-js": "^0.7.36",
     "csstype": "^3.1.1",
+    "esbuild-plugin-polyfill-node": "^0.3.0",
     "eslint-plugin-solid": "^0.7.3",
     "is-plain-object": "^5.0.0",
     "qrcode-generator": "^1.4.4",

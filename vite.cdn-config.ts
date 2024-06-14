@@ -14,13 +14,16 @@ export default defineConfig({
     },
   },
   optimizeDeps: {
+    esbuildOptions: {
+      target: "esnext",
+    },
     exclude: ["csstype"],
   },
   define: {
     TON_UNITY_SDK: JSON.stringify(version),
   },
   build: {
-    target: "es6",
+    target: "esnext",
     outDir: "dist",
     emptyOutDir: true,
     minify: "terser",

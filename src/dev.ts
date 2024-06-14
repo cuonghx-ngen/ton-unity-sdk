@@ -1,17 +1,6 @@
 /* @refresh reload */
 import { TonUnitySdkManager } from "src/index";
-import { SendTransactionRequest, TonConnect } from "@tonconnect/sdk";
-// import { beginCell } from "@ton/ton";
-
-// const transactionComment = (text: string) => {
-//   const cell = beginCell()
-//     .storeUint(0x00000000, 32)
-//     .storeStringTail(text)
-//     .endCell();
-
-//   const boc = cell.toBoc();
-//   return boc.toString("base64");
-// };
+import { TonConnect } from "@tonconnect/sdk";
 
 async function dev(): Promise<void> {
   const connector = new TonConnect({
@@ -71,37 +60,28 @@ async function dev(): Promise<void> {
     }, 1000); */
 
   document.getElementById("send-tx")!.onclick = () => {
-    const defaultTx: SendTransactionRequest = {
+    const defaultTx = {
       validUntil: Math.round(Date.now() / 1000) + 1000,
-      messages: [
-        {
-          address:
-            "0:4d5c0210b35daddaa219fac459dba0fdefb1fae4e97a0d0797739fe050d694ca",
-          amount: "1000000",
-        },
-      ],
+      address:
+        "0:4d5c0210b35daddaa219fac459dba0fdefb1fae4e97a0d0797739fe050d694ca",
+      amount: "1000000",
     };
     return tonUnitySdkManager.callFunction(
-      "sendTransaction",
+      "sendTon",
       JSON.stringify(defaultTx)
     );
   };
 
   document.getElementById("send-tx-with-comment")!.onclick = () => {
-    const defaultTx: SendTransactionRequest = {
+    const defaultTx = {
       validUntil: Math.round(Date.now() / 1000) + 1000,
-      messages: [
-        {
-          address:
-            "0:4d5c0210b35daddaa219fac459dba0fdefb1fae4e97a0d0797739fe050d694ca",
-          amount: "1000000",
-          payload:
-            "te6cckEBAQEAHwAAOgAAAAB0ZXN0IHRlc3QgdGVzdCB0ZXN0IHRlc3QgI6+I9g==",
-        },
-      ],
+      address:
+        "0:4d5c0210b35daddaa219fac459dba0fdefb1fae4e97a0d0797739fe050d694ca",
+      amount: "1000000",
+      comment: "test test test test",
     };
     return tonUnitySdkManager.callFunction(
-      "sendTransaction",
+      "sendTon",
       JSON.stringify(defaultTx)
     );
   };

@@ -1,7 +1,20 @@
-import { TonConnectUI, TonConnectUiCreateOptions } from "@tonconnect/ui";
+import {
+  SendTransactionRequest,
+  SendTransactionResponse,
+  TonConnectUI,
+  TonConnectUiCreateOptions,
+} from "@tonconnect/ui";
+import { textToBase64 } from "./utils";
 
 export interface TonUnitySdkManagerOptions {
   tonConnectUiCreateOptions: TonConnectUiCreateOptions;
+}
+
+export interface SendTonRequest {
+  validUntil: number;
+  address: string;
+  amount: string;
+  comment?: string;
 }
 
 export class TonUnitySdkManager {
@@ -18,7 +31,7 @@ export class TonUnitySdkManager {
 
     switch (fnc) {
       case "connect":
-        await this._tonConnectUI.openModal();
+        await this.connect();
         break;
       case "getStatus":
         result = { isConnected: this._tonConnectUI.connected };
@@ -29,14 +42,32 @@ export class TonUnitySdkManager {
       case "disconnect":
         await this._tonConnectUI.disconnect();
         break;
-      case "sendTransaction":
-        result = await this._tonConnectUI.sendTransaction(parsedArgs);
+      case "sendTon":
+        result = this.sendTon(parsedArgs);
         break;
       default:
         throw Error("Unsupported function");
     }
 
     return this.resultToJsonString(result);
+  }
+
+  async connect() {
+    return this._tonConnectUI.openModal();
+  }
+
+  async sendTon(args: SendTonRequest): Promise<SendTransactionResponse> {
+    const tx: SendTransactionRequest = {
+      validUntil: args.validUntil,
+      messages: [
+        {
+          address: args.address,
+          amount: args.amount,
+          payload: args.comment ? await textToBase64(args.comment) : undefined,
+        },
+      ],
+    };
+    return this._tonConnectUI.sendTransaction(tx);
   }
 
   private resultToJsonString(result: any): string {
