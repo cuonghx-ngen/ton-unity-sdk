@@ -1,6 +1,17 @@
 /* @refresh reload */
 import { TonUnitySdkManager } from "src/index";
 import { SendTransactionRequest, TonConnect } from "@tonconnect/sdk";
+// import { beginCell } from "@ton/ton";
+
+// const transactionComment = (text: string) => {
+//   const cell = beginCell()
+//     .storeUint(0x00000000, 32)
+//     .storeStringTail(text)
+//     .endCell();
+
+//   const boc = cell.toBoc();
+//   return boc.toString("base64");
+// };
 
 async function dev(): Promise<void> {
   const connector = new TonConnect({
@@ -70,6 +81,29 @@ async function dev(): Promise<void> {
         },
       ],
     };
+    return tonUnitySdkManager.callFunction(
+      "sendTransaction",
+      JSON.stringify(defaultTx)
+    );
+  };
+
+  document.getElementById("send-tx-with-comment")!.onclick = () => {
+    const defaultTx: SendTransactionRequest = {
+      validUntil: Math.round(Date.now() / 1000) + 1000,
+      messages: [
+        {
+          address:
+            "0:4d5c0210b35daddaa219fac459dba0fdefb1fae4e97a0d0797739fe050d694ca",
+          amount: "1000000",
+          payload:
+            "te6cckEBAQEAHwAAOgAAAAB0ZXN0IHRlc3QgdGVzdCB0ZXN0IHRlc3QgI6+I9g==",
+        },
+      ],
+    };
+    return tonUnitySdkManager.callFunction(
+      "sendTransaction",
+      JSON.stringify(defaultTx)
+    );
   };
 
   document.getElementById("disconnect")!.onclick = () => {
@@ -80,8 +114,10 @@ async function dev(): Promise<void> {
     return tonUnitySdkManager.callFunction("connect", "{}");
   };
 
-  console.log(await tonUnitySdkManager.callFunction("getStatus", "{}"));
-  console.log(await tonUnitySdkManager.callFunction("getAccount", "{}"));
+  setInterval(async () => {
+    console.log(await tonUnitySdkManager.callFunction("getStatus", "{}"));
+    console.log(await tonUnitySdkManager.callFunction("getAccount", "{}"));
+  }, 5000);
   //  tc.connectWallet();
   /*
     setTimeout(() => {

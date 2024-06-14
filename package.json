@@ -56,6 +56,7 @@
     "@floating-ui/dom": "^1.0.12",
     "@rollup/plugin-replace": "5.0.5",
     "@solid-primitives/i18n": "^1.1.2",
+    "@ton/ton": "^13.11.2",
     "@types/node": "^18.11.17",
     "@types/ua-parser-js": "^0.7.36",
     "csstype": "^3.1.1",
