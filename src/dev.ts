@@ -5,7 +5,7 @@ import { SendTransactionRequest, TonConnect } from "@tonconnect/sdk";
 async function dev(): Promise<void> {
   const connector = new TonConnect({
     manifestUrl:
-      "https://github.com/cuonghx-ngen/ton-unity-sdk/tonconnect-manifest.json",
+      "https://raw.githubusercontent.com/cuonghx-ngen/ton-unity-sdk/main/tonconnect-manifest.json",
   });
   const tonUnitySdkManager = new TonUnitySdkManager({
     tonConnectUiCreateOptions: {
@@ -70,17 +70,18 @@ async function dev(): Promise<void> {
         },
       ],
     };
+  };
 
-    // tonConnectUI.sendTransaction(defaultTx, {
-    //   modals: "all",
-    //   notifications: "all",
-    // });
+  document.getElementById("disconnect")!.onclick = () => {
+    return tonUnitySdkManager.callFunction("disconnect", "{}");
   };
 
   document.getElementById("connect")!.onclick = () => {
-    return tonUnitySdkManager.callFunction("connectWallet");
+    return tonUnitySdkManager.callFunction("connect", "{}");
   };
 
+  console.log(await tonUnitySdkManager.callFunction("getStatus", "{}"));
+  console.log(await tonUnitySdkManager.callFunction("getAccount", "{}"));
   //  tc.connectWallet();
   /*
     setTimeout(() => {
