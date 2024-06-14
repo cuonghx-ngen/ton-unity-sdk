@@ -1,8 +1,6 @@
 const tonUnitySdkManager = new TON_UNITY_SDK.TonUnitySdkManager({
   tonConnectUiCreateOptions: {
     manifestUrl:
-      "https://demo-dapp.walletbot.net/demo-dapp/tonconnect-manifest.json",
+      "https://github.com/cuonghx-ngen/ton-unity-sdk/tonconnect-manifest.json",
   },
 });
-
-tonUnitySdkManager.callFunction("connectWallet");

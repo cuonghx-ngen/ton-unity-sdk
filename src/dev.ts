@@ -5,7 +5,7 @@ import { SendTransactionRequest, TonConnect } from "@tonconnect/sdk";
 async function dev(): Promise<void> {
   const connector = new TonConnect({
     manifestUrl:
-      "https://demo-dapp.walletbot.net/demo-dapp/tonconnect-manifest.json",
+      "https://github.com/cuonghx-ngen/ton-unity-sdk/tonconnect-manifest.json",
   });
   const tonUnitySdkManager = new TonUnitySdkManager({
     tonConnectUiCreateOptions: {
@@ -78,7 +78,7 @@ async function dev(): Promise<void> {
   };
 
   document.getElementById("connect")!.onclick = () => {
-    tonUnitySdkManager.callFunction("connectWallet");
+    return tonUnitySdkManager.callFunction("connectWallet");
   };
 
   //  tc.connectWallet();
